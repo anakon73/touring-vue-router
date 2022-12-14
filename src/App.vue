@@ -1,3 +1,5 @@
 <script setup lang="ts"></script>
 
-<template><div>abc</div></template>
+<template>
+  <div class="text-7xl">Hello world</div>
+</template>
