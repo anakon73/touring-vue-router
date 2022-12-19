@@ -7,13 +7,13 @@ const props = defineProps(['page'])
 const { page } = toRefs(props)
 
 const events = ref<event[]>([])
-const totalEvents = ref<number>(6)
+const totalEvents = ref<number>(0)
 
 watchEffect(() => {
   EventService.getEvents(2, page?.value)
     .then((response) => {
       events.value = response.data
-      // totalEvents.value = response.headers['X-Total-Count']
+      totalEvents.value = +response.headers['x-total-count']!
     })
     .catch((error) => {
       console.log(error)
