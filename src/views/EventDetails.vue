@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import EventService from '@/services/EventService'
 import type { event } from '@/types/event'
 const { id } = defineProps(['id'])
 const event = ref<event>()
-axios
-  .get(
-    `https://my-json-server.typicode.com/anakon73/real-world-vue-3/events/${id}`
-  )
+
+EventService.getEvent(id)
   .then((response) => {
     event.value = response.data
   })
