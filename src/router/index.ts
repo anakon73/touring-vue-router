@@ -20,10 +20,15 @@ const routes = [
     props: (route: routeType) => ({ page: parseInt(route.query.page) || 1 }),
   },
   {
-    path: '/about',
+    path: '/about-us',
     name: 'AboutPage',
     component: AboutPage,
+    alias: '/about'
   },
+  // {
+  //   path: '/about',
+  //   redirect: {name: 'AboutPage'}
+  // },
   {
     path: '/events/:id',
     name: 'EventLayout',
@@ -46,6 +51,23 @@ const routes = [
       component: EventRegister
     },
   ]
+  },
+  {
+    path: '/event/:afterEvent(.*)',
+    redirect: (to: any) => {
+      return {path: '/events/' + to.params.afterEvent}
+    },
+    // redirect: () => {
+    //   return {name: 'EventDetails'}
+    // },
+    // children: [
+    //   {
+    //     path: 'register', redirect:()=> ({name: 'EventRegister'})
+    //   },
+    //   {
+    //     path: 'edit', redirect:()=> ({name: 'EventEdit'})
+    //   }
+    // ]
   },
 ]
 
