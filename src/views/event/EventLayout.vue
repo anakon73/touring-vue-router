@@ -12,22 +12,32 @@ EventService.getEvent(id)
   .catch((error) => {
     console.log(error)
   })
+
+const links = ref([
+  {
+    name: 'Details',
+    page: "EventDetails"
+  },
+  {
+    name: 'Register',
+    page: "EventRegister"
+  },
+  {
+    name: 'Edit',
+    page: "EventEdit"
+  }
+])
 </script>
 
 <template>
   <div v-if="event">
     <h1 class="text-[32px] font-bold">{{ event.title }}</h1>
     <nav class="flex justify-center gap-2 my-3 font-bold">
-      <RouterLink :to="{ name: 'EventDetails' }" active-class="text-emerald-400">
-        Details
-      </RouterLink>
-      |
-      <RouterLink :to="{ name: 'EventRegister' }" active-class="text-emerald-400">
-        Register
-      </RouterLink>
-      |
-      <RouterLink :to="{ name: 'EventEdit' }" active-class="text-emerald-400">
-        Edit
+      <RouterLink v-for="(link, index) in links" :to="{ name: `${link.page}` }" active-class="text-emerald-400">
+        {{ link.name }}
+        <template v-if="index < links.length - 1">
+          <span class="text-slate-700">|</span>
+        </template>
       </RouterLink>
     </nav>
     <RouterView :event="event" />
