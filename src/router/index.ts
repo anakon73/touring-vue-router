@@ -41,12 +41,12 @@ const routes = [
       component: EventDetails
     },
       {
-      path: 'register',
+      path: 'edit',
       name: 'EventEdit',
       component: EventEdit
     },
       {
-      path: 'edit',
+      path: 'register',
       name: 'EventRegister',
       component: EventRegister
     },
