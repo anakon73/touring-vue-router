@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import EventService from '@/services/EventService'
 import type { event } from '@/types/event'
+import router from '@/router';
 const { id } = defineProps(['id'])
 const event = ref<event>()
 
@@ -10,7 +11,15 @@ EventService.getEvent(id)
     event.value = response.data
   })
   .catch((error) => {
-    console.log(error)
+    if (error.response && error.response.status === 404) {
+      router.push({
+        name: '404Resource',
+        params: { resource: 'event' }
+      })
+    } else {
+      router.push({ name: 'NetworkError' })
+    }
+
   })
 
 const links = ref([

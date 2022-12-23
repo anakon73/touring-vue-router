@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import EventService from '@/services/EventService'
 import { watchEffect, toRefs, computed } from 'vue'
 import type { event } from '@/types/event'
+import router from '@/router';
 const props = defineProps(['page'])
 const { page } = toRefs(props)
 
@@ -15,8 +16,8 @@ watchEffect(() => {
       events.value = response.data
       totalEvents.value = +response.headers['x-total-count']!
     })
-    .catch((error) => {
-      console.log(error)
+    .catch(() => {
+      router.push({ name: 'NetworkError' })
     })
 })
 
