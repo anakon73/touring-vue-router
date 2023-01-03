@@ -1,26 +1,31 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 import EventService from '@/services/EventService'
 import type { event } from '@/types/event'
 import router from '@/router';
-const { id } = defineProps(['id'])
+type Props = {
+  id: number
+}
+const props = defineProps<Props>()
+const { id } = toRefs(props)
 const event = ref<event>()
 
-EventService.getEvent(id)
-  .then((response) => {
-    event.value = response.data
-  })
-  .catch((error) => {
-    if (error.response && error.response.status === 404) {
-      router.push({
-        name: '404Resource',
-        params: { resource: 'event' }
-      })
-    } else {
-      router.push({ name: 'NetworkError' })
-    }
-
-  })
+watch(id, () => {
+  EventService.getEvent(id.value)
+    .then((response) => {
+      event.value = response.data
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 404) {
+        router.push({
+          name: '404Resource',
+          params: { resource: 'event' }
+        })
+      } else {
+        router.push({ name: 'NetworkError' })
+      }
+    })
+}, { immediate: true })
 
 const links = ref([
   {
